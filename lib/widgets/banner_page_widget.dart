@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_flex_website/shared/icon_link.dart';
 import 'package:flutter_flex_website/styles/app_colors.dart';
 import 'package:flutter_flex_website/widgets/banner_item_widget.dart';
 
@@ -9,9 +10,6 @@ const textListDefault = [
   {'name': 'contact', 'index': 3},
 ];
 
-const String githubIconLink = 'icons/ic_github.svg';
-const String linkedinIconLink = 'icons/ic_linkedin.svg';
-const String telegramIconLink = 'icons/ic_telegram.svg';
 const iconListDefault = [
   {'icon': githubIconLink, 'link': 'https://github.com/dominhgiangbboy'},
   {'icon': linkedinIconLink, 'link': 'https://www.linkedin.com/in/giang-%C4%91%E1%BB%97-minh-9174251a2/'},

@@ -1,74 +1,69 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_flex_website/data/mock_projects_data.dart';
+import 'package:flutter_flex_website/data/models.dart';
 import 'package:flutter_flex_website/page/homepage.dart';
-import 'package:flutter_flex_website/page/sections/skills_section.dart';
+import 'package:flutter_flex_website/shared/spacing.dart';
 import 'package:flutter_flex_website/styles/app_colors.dart';
 import 'package:flutter_flex_website/styles/shadow.dart';
 import 'package:flutter_flex_website/styles/text_styles.dart';
 import 'package:flutter_flex_website/widgets/title_widget.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
-class ProjectsSection extends StatelessWidget {
+class ProjectsSection extends StatefulWidget {
   const ProjectsSection({
     Key? key,
   }) : super(key: key);
 
   @override
+  State<ProjectsSection> createState() => _ProjectsSectionState();
+}
+
+class _ProjectsSectionState extends State<ProjectsSection> {
+  List<bool> selectedFlag = List.generate(projectsList.length, (index) {
+    if (index == 0) {
+      return true;
+    } else {
+      return false;
+    }
+  });
+
+  ProjectModel currentProjectModel =
+      projectsList.isNotEmpty ? projectsList[0] : ProjectModel(description: '', name: '', techStack: '', link: '', image: '', url: '');
+  @override
   Widget build(BuildContext context) {
     return SizedBox(
       height: MediaQuery.of(context).size.height,
       child: Column(children: [
-        TitleTextWidget(title: 'Projects'),
+        const TitleTextWidget(title: 'Projects'),
         Container(
           padding: const EdgeInsets.all(commonPadding * 2),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Expanded(
-                  child: Container(
-                padding: const EdgeInsets.all(commonPadding / 2),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      height: MediaQuery.of(context).size.height / 3,
-                      decoration: BoxDecoration(color: AppColors.background.color, boxShadow: [commonShadow]),
-                    ),
-                    commonSpacing,
-                    Text(
-                      'Project 1',
-                      style: AppTextStyle.titleFont,
-                    ),
-                    commonSpacing,
-                    Text(
-                      'Description',
-                      style: AppTextStyle.subtitleFont,
-                    ),
-                    Text(
-                      'Tech Stack',
-                      style: AppTextStyle.subtitleFont,
-                    ),
-                    Text(
-                      'Link',
-                      style: AppTextStyle.subtitleFont.copyWith(decoration: TextDecoration.underline),
-                    ),
-                  ],
-                ),
-              )),
+              ImageSectionWidget(
+                projectModel: currentProjectModel,
+              ),
               Expanded(
                   child: SizedBox(
                 height: MediaQuery.of(context).size.height / 2,
                 child: MasonryGridView.builder(
-                  itemCount: 10,
+                  itemCount: projectsList.length,
                   itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Container(
-                        height: 100,
-                        decoration: BoxDecoration(
-                          boxShadow: [commonShadow],
-                          color: Colors.white,
-                        ),
-                      ),
+                    return ProjectNameWidget(
+                      name: projectsList[index].name,
+                      onTap: () {
+                        setState(() {
+                          currentProjectModel = projectsList[index];
+                          selectedFlag = List.generate(projectsList.length, (i) {
+                            if (index == i) {
+                              return true;
+                            } else {
+                              return false;
+                            }
+                          });
+                        });
+                      },
+                      isSelected: selectedFlag[index],
                     );
                   },
                   gridDelegate: const SliverSimpleGridDelegateWithFixedCrossAxisCount(
@@ -80,6 +75,99 @@ class ProjectsSection extends StatelessWidget {
           ),
         )
       ]),
+    );
+  }
+}
+
+class ImageSectionWidget extends StatelessWidget {
+  final ProjectModel projectModel;
+  const ImageSectionWidget({
+    super.key,
+    required this.projectModel,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+        child: Container(
+      padding: const EdgeInsets.all(commonPadding / 2),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            height: MediaQuery.of(context).size.height / 3,
+            width: double.infinity,
+            decoration: BoxDecoration(color: AppColors.background.color, boxShadow: [commonShadow]),
+            child: Image.network(
+              projectModel.image,
+              fit: BoxFit.fitHeight,
+            ),
+          ),
+          commonSpacing,
+          Text(
+            projectModel.name,
+            style: AppTextStyle.titleFont,
+          ),
+          commonSpacing,
+          Text(
+            projectModel.description,
+            style: AppTextStyle.subtitleFont,
+          ),
+          Text(
+            projectModel.techStack,
+            style: AppTextStyle.subtitleFont,
+          ),
+          Text(
+            projectModel.link,
+            style: AppTextStyle.subtitleFont.copyWith(decoration: TextDecoration.underline),
+          ),
+        ],
+      ),
+    ));
+  }
+}
+
+class ProjectNameWidget extends StatefulWidget {
+  const ProjectNameWidget({
+    super.key,
+    required this.name,
+    this.onTap,
+    required this.isSelected,
+  });
+  final String name;
+  final VoidCallback? onTap;
+  final bool isSelected;
+  @override
+  State<ProjectNameWidget> createState() => _ProjectNameWidgetState();
+}
+
+class _ProjectNameWidgetState extends State<ProjectNameWidget> {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Container(
+        decoration: BoxDecoration(
+          boxShadow: [commonShadow],
+          color: widget.isSelected ? AppColors.primaryColor.color : AppColors.background.color,
+        ),
+        child: TextButton(
+          style: TextButton.styleFrom(
+            backgroundColor: Colors.transparent,
+            foregroundColor: Colors.transparent,
+          ),
+          onPressed: () {
+            setState(() {
+              widget.onTap?.call();
+            });
+          },
+          child: Padding(
+            padding: const EdgeInsets.all(commonPadding),
+            child:
+                Text(widget.name, style: AppTextStyle.titleFont.copyWith(color: widget.isSelected ? AppColors.background.color : AppColors.primaryColor.color)),
+          ),
+        ),
+      ),
     );
   }
 }

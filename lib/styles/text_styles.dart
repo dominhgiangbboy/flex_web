@@ -11,13 +11,13 @@ class AppTextStyle {
     ),
   );
 
-  static get titleFont => GoogleFonts.ibmPlexMono(
-        textStyle: TextStyle(
-          color: AppColors.primaryColor.color,
-          fontSize: 20,
-          fontWeight: FontWeight.normal,
-        ),
-      );
+  static TextStyle titleFont = GoogleFonts.ibmPlexMono(
+    textStyle: TextStyle(
+      color: AppColors.primaryColor.color,
+      fontSize: 20,
+      fontWeight: FontWeight.normal,
+    ),
+  );
 
   static TextStyle highlightTitleFont = GoogleFonts.ibmPlexMono(
     textStyle: TextStyle(

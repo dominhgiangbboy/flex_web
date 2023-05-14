@@ -15,7 +15,7 @@ class TitleTextWidget extends StatelessWidget {
       padding: const EdgeInsets.all(commonPadding),
       child: Text(
         title.toUpperCase(),
-        style: AppTextStyle.titleFont,
+        style: AppTextStyle.titleFont.copyWith(decoration: TextDecoration.underline),
       ),
     );
   }
