@@ -25,34 +25,48 @@ class SkillItemHorizontalWidget extends StatelessWidget {
         ),
         child: Padding(
           padding: EdgeInsets.only(top: 160.0 * index),
-          child: Container(
-            padding: const EdgeInsets.all(commonPadding),
-            decoration: BoxDecoration(
-              boxShadow: [commonShadow],
-              color: AppColors.background.color,
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Mobile development',
-                      style: AppTextStyle.titleFont.copyWith(fontWeight: FontWeight.w600),
-                      textAlign: TextAlign.center,
-                    ),
-                  ],
-                ),
-                commonSpacing,
-                for (var skillItem in skill.items)
-                  SkillItemCellWidget(
-                    skillItem: skillItem,
-                  )
-              ],
-            ),
-          ),
+          child: SkillItemBoxWidget(skill: skill),
         ),
+      ),
+    );
+  }
+}
+
+class SkillItemBoxWidget extends StatelessWidget {
+  const SkillItemBoxWidget({
+    super.key,
+    required this.skill,
+  });
+
+  final SkillModel skill;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(commonPadding),
+      decoration: BoxDecoration(
+        boxShadow: [commonShadow],
+        color: AppColors.background.color,
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'Mobile development',
+                style: AppTextStyle.titleFont.copyWith(fontWeight: FontWeight.w600),
+                textAlign: TextAlign.center,
+              ),
+            ],
+          ),
+          commonSpacing,
+          for (var skillItem in skill.items)
+            SkillItemCellWidget(
+              skillItem: skillItem,
+            )
+        ],
       ),
     );
   }

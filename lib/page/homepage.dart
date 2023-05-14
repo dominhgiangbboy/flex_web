@@ -28,21 +28,6 @@ class HomePage extends StatelessWidget {
                 if (!isMobile(context)) const BannerDesktopWidget.left(),
                 Expanded(
                   child: Scaffold(
-                    appBar: isMobile(context)
-                        ? AppBar(
-                            backgroundColor: Colors.transparent,
-                            shadowColor: Colors.transparent,
-                            actions: [
-                              IconButton(
-                                  onPressed: () {},
-                                  icon: Icon(
-                                    Icons.menu,
-                                    size: iconSize,
-                                    color: AppColors.primaryColor.color,
-                                  ))
-                            ],
-                          )
-                        : null,
                     body: SizedBox(
                       width: fullWidth(context),
                       child: SingleChildScrollView(
@@ -64,6 +49,19 @@ class HomePage extends StatelessWidget {
                     scrollController: scrollController,
                   ),
               ],
+            ),
+            Align(
+              alignment: Alignment.topRight,
+              child: Padding(
+                padding: const EdgeInsets.all(commonPadding),
+                child: IconButton(
+                  onPressed: () {},
+                  icon: Icon(
+                    Icons.menu,
+                    size: 42,
+                  ),
+                ),
+              ),
             ),
             DownScrollButtonWidget(
               scrollController: scrollController,

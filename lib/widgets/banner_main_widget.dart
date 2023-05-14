@@ -9,7 +9,7 @@ import '../styles/text_styles.dart';
 class BannerMainWidget extends StatelessWidget {
   const BannerMainWidget({super.key});
 
-  static double _fullWidth(context) => MediaQuery.of(context).size.width / 2;
+  static double _fullWidth(context) => isMobile(context) ? MediaQuery.of(context).size.width / 6 * 5 : MediaQuery.of(context).size.width / 2;
   @override
   Widget build(BuildContext context) {
     return Container(

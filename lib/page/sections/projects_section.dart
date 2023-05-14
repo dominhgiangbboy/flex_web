@@ -32,47 +32,82 @@ class _ProjectsSectionState extends State<ProjectsSection> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: MediaQuery.of(context).size.height,
+      height: isMobile(context) ? null : MediaQuery.of(context).size.height,
       child: Column(children: [
         const TitleTextWidget(title: 'Projects'),
         Container(
           padding: const EdgeInsets.all(commonPadding * 2),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              ImageSectionWidget(
-                projectModel: currentProjectModel,
-              ),
-              Expanded(
-                  child: SizedBox(
-                height: MediaQuery.of(context).size.height / 2,
-                child: MasonryGridView.builder(
-                  itemCount: projectsList.length,
-                  itemBuilder: (context, index) {
-                    return ProjectNameWidget(
-                      name: projectsList[index].name,
-                      onTap: () {
-                        setState(() {
-                          currentProjectModel = projectsList[index];
-                          selectedFlag = List.generate(projectsList.length, (i) {
-                            if (index == i) {
-                              return true;
-                            } else {
-                              return false;
-                            }
-                          });
-                        });
-                      },
-                      isSelected: selectedFlag[index],
-                    );
-                  },
-                  gridDelegate: const SliverSimpleGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 3,
-                  ),
+          child: isMobile(context)
+              ? Column(
+                  children: [
+                    ImageSectionWidgetBox(
+                      projectModel: currentProjectModel,
+                    ),
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height / 2,
+                      child: MasonryGridView.builder(
+                        itemCount: projectsList.length,
+                        itemBuilder: (context, index) {
+                          return ProjectNameWidget(
+                            name: projectsList[index].name,
+                            onTap: () {
+                              setState(() {
+                                currentProjectModel = projectsList[index];
+                                selectedFlag = List.generate(projectsList.length, (i) {
+                                  if (index == i) {
+                                    return true;
+                                  } else {
+                                    return false;
+                                  }
+                                });
+                              });
+                            },
+                            isSelected: selectedFlag[index],
+                          );
+                        },
+                        gridDelegate: SliverSimpleGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: isMobile(context) ? 2 : 3,
+                        ),
+                      ),
+                    ),
+                  ],
+                )
+              : Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    ImageSectionWidget(
+                      projectModel: currentProjectModel,
+                    ),
+                    Expanded(
+                        child: SizedBox(
+                      height: MediaQuery.of(context).size.height / 2,
+                      child: MasonryGridView.builder(
+                        itemCount: projectsList.length,
+                        itemBuilder: (context, index) {
+                          return ProjectNameWidget(
+                            name: projectsList[index].name,
+                            onTap: () {
+                              setState(() {
+                                currentProjectModel = projectsList[index];
+                                selectedFlag = List.generate(projectsList.length, (i) {
+                                  if (index == i) {
+                                    return true;
+                                  } else {
+                                    return false;
+                                  }
+                                });
+                              });
+                            },
+                            isSelected: selectedFlag[index],
+                          );
+                        },
+                        gridDelegate: const SliverSimpleGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 3,
+                        ),
+                      ),
+                    ))
+                  ],
                 ),
-              ))
-            ],
-          ),
         )
       ]),
     );
@@ -91,39 +126,53 @@ class ImageSectionWidget extends StatelessWidget {
     return Expanded(
         child: Container(
       padding: const EdgeInsets.all(commonPadding / 2),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            height: MediaQuery.of(context).size.height / 3,
-            width: double.infinity,
-            decoration: BoxDecoration(color: AppColors.background.color, boxShadow: [commonShadow]),
-            child: Image.network(
-              projectModel.image,
-              fit: BoxFit.fitHeight,
-            ),
-          ),
-          commonSpacing,
-          Text(
-            projectModel.name,
-            style: AppTextStyle.titleFont,
-          ),
-          commonSpacing,
-          Text(
-            projectModel.description,
-            style: AppTextStyle.subtitleFont,
-          ),
-          Text(
-            projectModel.techStack,
-            style: AppTextStyle.subtitleFont,
-          ),
-          Text(
-            projectModel.link,
-            style: AppTextStyle.subtitleFont.copyWith(decoration: TextDecoration.underline),
-          ),
-        ],
-      ),
+      child: ImageSectionWidgetBox(projectModel: projectModel),
     ));
+  }
+}
+
+class ImageSectionWidgetBox extends StatelessWidget {
+  const ImageSectionWidgetBox({
+    super.key,
+    required this.projectModel,
+  });
+
+  final ProjectModel projectModel;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          height: MediaQuery.of(context).size.height / 3,
+          width: double.infinity,
+          decoration: BoxDecoration(color: AppColors.background.color, boxShadow: [commonShadow]),
+          child: Image.network(
+            projectModel.image,
+            fit: BoxFit.fitHeight,
+          ),
+        ),
+        commonSpacing,
+        Text(
+          projectModel.name,
+          style: AppTextStyle.titleFont,
+        ),
+        commonSpacing,
+        Text(
+          projectModel.description,
+          style: AppTextStyle.subtitleFont,
+        ),
+        Text(
+          projectModel.techStack,
+          style: AppTextStyle.subtitleFont,
+        ),
+        Text(
+          projectModel.link,
+          style: AppTextStyle.subtitleFont.copyWith(decoration: TextDecoration.underline),
+        ),
+      ],
+    );
   }
 }
 
