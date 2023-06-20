@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "993251629138",
+    "firebase_url": "https://giangtest-2fc07.firebaseio.com",
+    "project_id": "giangtest-2fc07",
+    "storage_bucket": "giangtest-2fc07.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:993251629138:android:68041a842559981e0e678b",
+        "android_client_info": {
+          "package_name": "com.example.flutter_flex_website"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "993251629138-qfmp897590s4utabbcbsqtlam8nsatu3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAjmVDaMSkbdvdu04aMUHbkOYxMmT5z2nk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "993251629138-qfmp897590s4utabbcbsqtlam8nsatu3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,5 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_flex_website/data/mock_projects_data.dart';
+import 'package:flutter_flex_website/data/firestore_service.dart';
 import 'package:flutter_flex_website/data/models.dart';
 import 'package:flutter_flex_website/page/homepage.dart';
 import 'package:flutter_flex_website/shared/spacing.dart';
@@ -10,8 +11,10 @@ import 'package:flutter_flex_website/widgets/title_widget.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 class ProjectsSection extends StatefulWidget {
+  final List<ProjectModel> projectList;
   const ProjectsSection({
     Key? key,
+    required this.projectList,
   }) : super(key: key);
 
   @override
@@ -19,16 +22,22 @@ class ProjectsSection extends StatefulWidget {
 }
 
 class _ProjectsSectionState extends State<ProjectsSection> {
-  List<bool> selectedFlag = List.generate(projectsList.length, (index) {
-    if (index == 0) {
-      return true;
-    } else {
-      return false;
-    }
-  });
+  @override
+  initState() {
+    super.initState();
+    selectedFlag = List.generate(widget.projectList.length, (index) {
+      if (index == 0) {
+        return true;
+      } else {
+        return false;
+      }
+    });
+    currentProjectModel = widget.projectList.first;
+  }
 
-  ProjectModel currentProjectModel =
-      projectsList.isNotEmpty ? projectsList[0] : ProjectModel(description: '', name: '', techStack: '', link: '', image: '', url: '');
+  List<bool> selectedFlag = [];
+
+  ProjectModel currentProjectModel = ProjectModel(description: '', name: '', techStack: '', link: '', image: '', url: '');
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -46,14 +55,14 @@ class _ProjectsSectionState extends State<ProjectsSection> {
                     SizedBox(
                       height: MediaQuery.of(context).size.height / 2,
                       child: MasonryGridView.builder(
-                        itemCount: projectsList.length,
+                        itemCount: widget.projectList.length,
                         itemBuilder: (context, index) {
                           return ProjectNameWidget(
-                            name: projectsList[index].name,
+                            name: widget.projectList[index].name,
                             onTap: () {
                               setState(() {
-                                currentProjectModel = projectsList[index];
-                                selectedFlag = List.generate(projectsList.length, (i) {
+                                currentProjectModel = widget.projectList[index];
+                                selectedFlag = List.generate(widget.projectList.length, (i) {
                                   if (index == i) {
                                     return true;
                                   } else {
@@ -82,14 +91,14 @@ class _ProjectsSectionState extends State<ProjectsSection> {
                         child: SizedBox(
                       height: MediaQuery.of(context).size.height / 2,
                       child: MasonryGridView.builder(
-                        itemCount: projectsList.length,
+                        itemCount: widget.projectList.length,
                         itemBuilder: (context, index) {
                           return ProjectNameWidget(
-                            name: projectsList[index].name,
+                            name: widget.projectList[index].name,
                             onTap: () {
                               setState(() {
-                                currentProjectModel = projectsList[index];
-                                selectedFlag = List.generate(projectsList.length, (i) {
+                                currentProjectModel = widget.projectList[index];
+                                selectedFlag = List.generate(widget.projectList.length, (i) {
                                   if (index == i) {
                                     return true;
                                   } else {

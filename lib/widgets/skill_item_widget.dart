@@ -56,8 +56,9 @@ class SkillItemBoxWidget extends StatelessWidget {
             children: [
               Text(
                 'Mobile development',
-                style: AppTextStyle.titleFont.copyWith(fontWeight: FontWeight.w600),
+                style: AppTextStyle.titleFont.copyWith(fontWeight: FontWeight.w500, fontSize: 16),
                 textAlign: TextAlign.center,
+                overflow: TextOverflow.ellipsis,
               ),
             ],
           ),

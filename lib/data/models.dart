@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 class SkillItemModel {
   final String name;
   final String description;
@@ -76,4 +78,30 @@ class ProjectModel {
       techStack: techStack ?? this.techStack,
     );
   }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'name': name,
+      'description': description,
+      'image': image,
+      'url': url,
+      'link': link,
+      'techStack': techStack,
+    };
+  }
+
+  factory ProjectModel.fromMap(Map<String, dynamic> map) {
+    return ProjectModel(
+      name: map['name'] ?? '',
+      description: map['description'] ?? '',
+      image: map['image'] ?? '',
+      url: map['url'] ?? '',
+      link: map['link'] ?? '',
+      techStack: map['techStack'] ?? '',
+    );
+  }
+
+  String toJson() => json.encode(toMap());
+
+  factory ProjectModel.fromJson(String source) => ProjectModel.fromMap(json.decode(source));
 }

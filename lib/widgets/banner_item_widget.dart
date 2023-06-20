@@ -3,7 +3,6 @@ import 'package:flutter_flex_website/page/homepage.dart';
 import 'package:flutter_flex_website/styles/app_colors.dart';
 import 'package:flutter_flex_website/styles/text_styles.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 class BannerItem extends StatefulWidget {
